@@ -1,0 +1,5 @@
+APScheduler==3.9.1
+json5==0.9.6
+pycryptodome==3.14.1
+requests==2.27.1
+urllib3==1.26.9

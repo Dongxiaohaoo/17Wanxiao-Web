@@ -1,0 +1,13 @@
+FROM  python:3.9-slim
+
+LABEL maintainer="jerryliang@jerryliang.top"
+
+WORKDIR /app
+
+COPY . /app/
+
+RUN apt update \
+    && apt -y install gcc \
+    && pip install -r requirements.txt 
+
+CMD ["python","docker.py"]
