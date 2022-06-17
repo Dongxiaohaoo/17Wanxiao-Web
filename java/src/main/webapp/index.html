@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>完美校园自动打卡</title>
+    <script language="javascript" type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <link rel="Shortcut Icon" href="image/icon.png" type="image/x-icon"/>
+    <link type="text/css" href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/index.css">
+    <script language="javascript" type="text/javascript"
+            src="css/bootstrap/bootstrap.min.js"></script>
+    <script src="js/axios.js"/>
+    <script src="js/layer.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="layui/layui.js"></script>
+</head>
+<body>
+<img src="image/zfb.jpg" class="pay" id="pay" style="display: none">
+<ul class="layui-nav layui-bg-black" id="banner">
+    <li class="layui-nav-item"><a href="https://dongxiaohao.top/">我的博客</a></li>
+    <li class="layui-nav-item"><a href="https://github.com/Dongxiaohaoo">GitHub</a></li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">打赏</a>
+        <dl class="layui-nav-child">
+            <dd><a href="javascript:void (0)" onclick="showQRCode('image/wx.png')">微信</a></dd>
+            <dd><a href="javascript:void (0)" onclick="showQRCode('image/zfb.jpg')">支付宝</a></dd>
+        </dl>
+    </li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">更多业务</a>
+        <dl class="layui-nav-child">
+            <dd><a href="https://faka.dongxiaohao.top/">破解路由器</a></dd>
+        </dl>
+    </li>
+</ul>
+
+<div id="llogin" align="center" style="width: 500px;border: #000 solid 0.5px;padding-bottom: 20px">
+    <ul class="nav nav-tabs nav-justified" style="width: auto">
+        <li class="active" role="presentation"><a href="#first" data-toggle="tab">设备注册</a></li>
+        <li role="presentation" onclick="showMsg()"><a href="#second" data-toggle="tab">提交注册</a></li>
+    </ul>
+    <!--标签页内容部分-->
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="first" role="tabpanel">
+            <table>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">手机号</span>
+                            <input type="text" id="Phone" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">设备id</span>
+                            <input type="text" id="devId" readonly class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr id="sms_line" style="display: none">
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">验证码</span>
+                            <input type="text" id="smsCode" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>
+                        <input type="button" id="change" value="随机设备ID" class="btn btn-sm btn-dark"/>
+                        <input type="button" value="发送验证码" onclick="send(this)" class="btn btn-sm btn-success"/>
+                        <input type="button" value="验证码登录" onclick="login()" id="sms_btn" style="display: none"
+                               class="btn btn-sm btn-info"/>
+                    </td>
+                </tr>
+            </table>
+            <a href="javascript:void(0)" onclick="showReadMe()" style="float: right;margin-right: 20px;color: blue">使用说明</a>
+        </div>
+        <div class="tab-pane fade" id="second" role="tabpanel">
+            <table>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">手机号</span>
+                            <input type="text" id="lPhone" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">密码</span>
+                            <input type="text" id="lpassword" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">设备id</span>
+                            <input type="text" id="ldevId" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">邮箱</span>
+                            <input type="email" id="lemail" class="form-control" title="用作推送" placeholder="用以推送打卡信息">
+                        </div>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>
+                        <input type="radio" name="temp" value="1" checked>模板一
+                        <input type="radio" name="temp" value="2">模板二
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td>
+                        <input type="button" value="测试提交" onclick="testTemp()" class="btn btn-sm btn-success"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="statistical">
+    网站由<b><a href="https://reajason.top/">ReaJason</a></b>提供技术支持
+</div>
+</body>
+<script>
+    function showMsg() {
+        layer.alert("建议测试打卡之后再进行提交操作")
+    }
+
+    //提交挂机
+    function subLogin() {
+
+    }
+
+    // 测试模板
+    function testTemp() {
+        console.log("kaishi")
+        let lPhone = document.getElementById("lPhone").value;
+        let lpassword = document.getElementById("lpassword").value;
+        let ldevId = document.getElementById("ldevId").value;
+        let temps = document.getElementsByName("temp");
+        let lemail = document.getElementById("lemail").value;
+        let tempValue;
+        for (let temp of temps) {
+            if (temp.checked) {
+                tempValue = temp.value;
+                break;
+            }
+        }
+        if (!(/^1[3|4|5|6|7|8|9]\d{9}$/.test(lPhone))) {
+            layer.msg("手机号输入有误!");
+            return;
+        }
+        if (lpassword != '' || lpassword != null)
+            axios.get("user?opr=test&phone=" + lPhone + "&pwd=" + lpassword + "&dev=" + ldevId + "&email=" + lemail + "&temp=" + tempValue).then(function (res) {
+                let result = res.data;
+                if (result['errmsg'] != null && result['errmsg'] !== undefined && result['errmsg'] != '') {
+                    layer.alert(result['errmsg'] + "<br>请检查账号或者密码是否正确,并且设备ID是否已注册")
+                } else {
+                    let tishi;
+                    if (result['data'] == 1) {
+                        tishi = result['msg'];
+                    } else {
+                        tishi = result['data'] + "打卡频繁并不影响服务器提交!";
+                    }
+                    layer.confirm('测试结果:' + tishi + '<br>您是否需要提交到服务器自动打卡(每日早上八点)?', {
+                            btn: ['需要', '不需要']
+                        }, function () {
+                        axios.get("user?opr=submit&phone=" + lPhone + "&pwd=" + lpassword + "&dev=" + ldevId + "&email=" + lemail + "&temp=" + tempValue).then(function (res) {
+                            layer.alert("提交成功!",{icon:1})
+                            }).catch(function (err) {
+                                layer.alert("服务器出错了...",{icon:2})
+                            });
+                        }, function () {
+                            layer.alert("取消提交")
+                        }
+                    );
+                }
+            }).catch(function (err) {
+
+            });
+
+    }
+    
+    function showReadMe() {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['620px', '440px'], //宽高
+            content: '<h1>使用说明</h1><hr>' +
+                '<ol type="1">' +
+                '<li>1.首次使用请在手机APP上正常打卡一次</li><br>' +
+                '<li>2.请注册设备后再提交打卡</li><br>'+
+                '<li>3.请确保验证码登录时的设备ID和提交时的设备ID一致</li><br>'+
+                '<li>4.推荐使用支付宝小程序进行完美校园操作</li><br>'+
+                '<li>5.期间如果登录完美校园APP,那么服务器登录状态将会失效,<br>如果希望继续打卡,请重新注册并且提交</li><br>'+
+                '</ol>'
+
+        });
+    }
+
+    layer.alert("首次使用请手动打卡一次并且发送验证码注册一下设备,<br>如果挂机期间登录过完美校园APP,那么此服务将会被挤下线<br>请重新注册设备后重新提交打卡", {
+        icon: 6,
+    })
+
+    function showLogin() {
+        document.getElementById("change").style.display = "none";
+        document.getElementById("sms_line").style.display = "block";
+        document.getElementById("sms_btn").style.display = "inline";
+    }
+
+    function login() {
+        let phone = document.getElementById("Phone").value;
+        let devId = document.getElementById("devId").value;
+        let smsCode = document.getElementById("smsCode").value;
+        axios.get("user?opr=slogin&phone=" + phone + "&sms=" + smsCode + "&dev=" + devId).then(function (res) {
+            let result = res.data;
+            console.log(result)
+            if (result['status'] == 1) {
+                layer.alert(result['msg'], {
+                    icon: 1,
+                });
+            } else {
+                layer.alert(result['errmsg'], {
+                    icon: 2,
+                });
+            }
+        }).catch(function (err) {
+            layer.alert("系统出故障了！！", {
+                icon: 2,
+            });
+        });
+    }
+
+    function showQRCode(url) {
+        var img = "<img src='" + url + "' />";
+        layer.open({
+            type: 1,
+            shade: false,
+            title: false, //不显示标题
+            shade: 0.6,
+            // area: ['auto', 'auto'],
+            // area: [img.width + 'px', img.height + 'px'],
+            id: "pp",
+            content: img, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('图片查看结束！', { time: 5000, icon: 6 });
+            }
+        });
+    }
+
+    function hiddenQRcode() {
+        let elementById = document.getElementById("pay");
+        elementById.style.display = "none"
+    }
+
+    function randomDevId() {
+        let dev = document.getElementById("devId");
+        let ldevId = document.getElementById("ldevId");
+        randmonDev = parseInt(Math.random() * Math.pow(10, 16));
+        dev.value = randmonDev;
+        ldevId.value = randmonDev;
+    }
+
+    randomDevId()
+    document.getElementById("change").addEventListener("click", randomDevId)
+
+    function checkPhone() {
+        var phone = document.getElementById('Phone').value;
+        if (!(/^1[3|4|5|6|7|8|9]\d{9}$/.test(phone))) {
+            layer.msg("手机号输入有误!");
+            return false;
+        }
+        return true;
+    }
+
+    function send(sendBtn) {
+        //检测手机号是否合法
+        if (checkPhone()) {
+            sendBtn.disabled = true;
+            let phone = document.getElementById("Phone").value;
+            let devId = document.getElementById("devId").value;
+            axios.get("user?opr=send_msg&phone=" + phone + "&dev=" + devId).then(function (res) {
+                let result = res.data;
+                showLogin()
+                console.log(result)
+                layer.alert(result['msg'], {
+                    time: 5 * 1000
+                    , success: function (layero, index) {
+                        var timeNum = this.time / 1000, setText = function (start) {
+                            layer.title((start ? timeNum : --timeNum) + ' 秒后关闭', index);
+                        };
+                        setText(!0);
+                        this.timer = setInterval(setText, 1000);
+                        if (timeNum <= 0) clearInterval(this.timer);
+                    }
+                    , end: function () {
+                        clearInterval(this.timer);
+                    }
+                });
+            }).catch(function (err) {
+                layer.alert("系统出故障啦！", {
+                    icon: 2,
+                });
+            });
+        }
+    }
+</script>
+<script>
+    layui.use('element', function () {
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航点击
+        element.on('nav(demo)', function (elem) {
+            console.log(elem)
+            layer.msg(elem.text());
+        });
+    });
+</script>
+</html>
