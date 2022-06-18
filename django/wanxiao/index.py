@@ -109,8 +109,8 @@ def main_handler(phone, password, device_id, healthy_checkin,email):
                 "enable": True,
                 "smtp_address": "smtp.qq.com",
                 "smtp_port": 465,
-                "send_email": "1451361390@qq.com",
-                "send_pwd": "hsgjfevfbcvcjhbd",
+                "send_email": "邮箱",
+                "send_pwd": "邮箱授权码",
                 "receive_email": email
             },
             "qmsg": {
@@ -129,8 +129,8 @@ def main_handler(phone, password, device_id, healthy_checkin,email):
     return check_dict
 
 # if __name__ == "__main__":
-#     phone = "17683817443"
-#     password = "DONGhao123"
+#     phone = ""
+#     password = ""
 #     device_id = "614534617750992"
 #     template = "1"
 #     if template == "1":
