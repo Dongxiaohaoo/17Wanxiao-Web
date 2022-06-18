@@ -38,8 +38,12 @@
 此项目根据[ReaJason](https://github.com/ReaJason/17wanxiaoCheckin)大佬项目夏季霸改的,可以实现基本的打卡操作,需要部署在服务器上运行
 
 
-
 ​	
+
+## 程序运行流程:
+搭建本地Python打卡服务 -> Java请求我们Python写好的接口 -> Python完成打卡
+
+请添加定时任务http://localhost/user?opr=clockIn 来给数据库所有用户打卡
 
 
 
