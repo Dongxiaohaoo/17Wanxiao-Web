@@ -9,8 +9,8 @@
 ​	1.cd到 ../17Wanxiao/django 目录下
 
 ​	2.执行 python manage.py runserver 0.0.0.0:4397 启动django服务 (重要,端口可以自定义,修改后请同步修改java\top\dongxiaohao\client下的所有Get端口)
-
-
+	
+​	3. 请在Wanxiao/index.py下修改自己的邮箱和邮箱授权码实现推送功能
 
 #### Java端
 
